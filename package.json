@@ -1,0 +1,62 @@
+{
+  "name": "hiric",
+  "version": "2.3.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "axios": "^1.3.6",
+    "bootstrap": "^5.3.2",
+    "chart.js": "^3.10.0",
+    "formik": "^2.2.9",
+    "js-cookie": "^3.0.5",
+    "overlayscrollbars": "^2.4.6",
+    "overlayscrollbars-react": "^0.5.3",
+    "postcss": "^8.4.10",
+    "postcss-cli": "^9.1.0",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.9.2",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
+    "react-modal-video": "^2.0.0",
+    "react-rating": "^2.0.5",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^6.1.1",
+    "react-scripts": "5.0.1",
+    "react-slick": "^0.28.0",
+    "react-sticky-header": "^0.2.0",
+    "react-text-rotator": "^1.2.0",
+    "react-tsparticles": "^2.12.2",
+    "reactstrap": "^9.1.9",
+    "sass": "^1.39.5",
+    "sweetalert2": "^11.10.6",
+    "tailwindcss": "^2.0.0",
+    "tsparticles": "^2.12.0",
+    "tsparticles-engine": "^2.12.0",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start:tailwind": "postcss src/styles/tailwind.css -o src/index.css",
+    "build:tailwind": "NODE_ENV=production postcss src/styles/tailwind.css -o src/index.css"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
