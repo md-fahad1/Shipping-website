@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-import OverlayNavbar from "../OverlayNavbar";
+
 import {
   AiOutlineDollar,
   AiOutlineOrderedList,
@@ -10,12 +9,34 @@ import {
   AiOutlineCloseCircle,
 } from "react-icons/ai";
 import { BiDollarCircle } from "react-icons/bi";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title,
+} from "chart.js";
+import OverlayNavbar from "../OverlayNavbar";
+
+import { Bar, Pie } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title
+);
 
 const Dashboard = () => {
-  const [username] = useState("fahad"); // default username
+  const [username] = useState("fahad");
   const iconSize = 36;
 
-  // Dummy Data (you can later fetch it again)
   const [order_value] = useState(4500);
   const [order] = useState(10);
   const [success] = useState(8);
@@ -24,13 +45,135 @@ const Dashboard = () => {
   const [total_due] = useState(1000);
   const [totalpaid] = useState(3500);
 
-  const [lastorder] = useState({
-    invoice_no: "INV-001",
-    product: "Smartwatch",
-    order_type: "Online",
-    contact_number: "01712345678",
-    total_quantity: 2,
-  });
+  const [lastOrders] = useState([
+    {
+      invoice_no: "INV-001",
+      product: "Smartwatch",
+      order_type: "Online",
+      contact_number: "01712345678",
+      total_quantity: 2,
+    },
+    {
+      invoice_no: "INV-002",
+      product: "Bluetooth Headset",
+      order_type: "In-Store",
+      contact_number: "01987654321",
+      total_quantity: 1,
+    },
+    {
+      invoice_no: "INV-003",
+      product: "Gaming Mouse",
+      order_type: "Online",
+      contact_number: "01812345678",
+      total_quantity: 3,
+    },
+    {
+      invoice_no: "INV-004",
+      product: "Keyboard",
+      order_type: "In-Store",
+      contact_number: "01678901234",
+      total_quantity: 2,
+    },
+    {
+      invoice_no: "INV-005",
+      product: "Monitor",
+      order_type: "Online",
+      contact_number: "01567890123",
+      total_quantity: 1,
+    },
+    {
+      invoice_no: "INV-006",
+      product: "Laptop",
+      order_type: "Online",
+      contact_number: "01456789012",
+      total_quantity: 1,
+    },
+    {
+      invoice_no: "INV-007",
+      product: "Tablet",
+      order_type: "In-Store",
+      contact_number: "01345678901",
+      total_quantity: 2,
+    },
+    {
+      invoice_no: "INV-008",
+      product: "Wireless Charger",
+      order_type: "Online",
+      contact_number: "01234567890",
+      total_quantity: 4,
+    },
+    {
+      invoice_no: "INV-009",
+      product: "Smartphone",
+      order_type: "In-Store",
+      contact_number: "01799988877",
+      total_quantity: 1,
+    },
+    {
+      invoice_no: "INV-010",
+      product: "Power Bank",
+      order_type: "Online",
+      contact_number: "01888877766",
+      total_quantity: 5,
+    },
+  ]);
+
+  // Dummy chart data
+  const chartData = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        label: "Orders",
+        data: [5, 8, 6, 10, 7, 12],
+        backgroundColor: "#2FB261",
+      },
+    ],
+  };
+
+  // Bar chart data
+  const barData = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        label: "Orders",
+        data: [5, 8, 6, 10, 7, 12],
+        backgroundColor: "#2FB261",
+      },
+    ],
+  };
+
+  const barOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: "Monthly Orders" },
+    },
+  };
+
+  // Pie chart data
+  const pieData = {
+    labels: ["Success", "Pending", "Cancelled"],
+    datasets: [
+      {
+        label: "Order Status",
+        data: [8, 1, 1], // success, pending, cancelled
+        backgroundColor: ["#2FB261", "#FACC15", "#EF4444"],
+      },
+    ],
+  };
+
+  const pieOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: "Order Status" },
+      legend: {
+        position: "bottom",
+        labels: { boxWidth: 12 },
+      },
+    },
+  };
 
   return (
     <>
@@ -39,6 +182,7 @@ const Dashboard = () => {
         <div className="ml-20">
           <h4 className="mb-2 pb-0 text-2xl ml-5">Welcome, {username}</h4>
 
+          {/* Summary Cards */}
           <Row className="mb-5 g-3 align-middle justify-center">
             <Col xs="6" md="4" lg="2">
               <Card className="mt-6 h-[220px] w-[200px] cursor-pointer card-hover">
@@ -85,6 +229,7 @@ const Dashboard = () => {
             </Col>
           </Row>
 
+          {/* Order Status Cards */}
           <Row className="mb-5 g-3 align-middle justify-center">
             <Col xs="6" md="4" lg="2">
               <Card className="h-100 cursor-pointer card-hover">
@@ -144,7 +289,16 @@ const Dashboard = () => {
               </Card>
             </Col>
           </Row>
+          <div className="pl-10 pr-10 pb-10 flex flex-wrap gap-6 justify-center">
+            <div className="w-[400px] h-[300px]">
+              <Bar data={barData} options={barOptions} />
+            </div>
+            <div className="w-[400px] h-[300px]">
+              <Pie data={pieData} options={pieOptions} />
+            </div>
+          </div>
 
+          {/* Orders Table */}
           <h2 className="text-[#2FB261] text-lg font-semibold mb-3 ml-10">
             Latest Order
           </h2>
@@ -170,13 +324,15 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                <tr>
-                  <td className="px-3 py-2">{lastorder.invoice_no}</td>
-                  <td className="px-3 py-2">{lastorder.product}</td>
-                  <td className="px-3 py-2">{lastorder.order_type}</td>
-                  <td className="px-3 py-2">{lastorder.contact_number}</td>
-                  <td className="px-3 py-2">{lastorder.total_quantity}</td>
-                </tr>
+                {lastOrders.map((order, index) => (
+                  <tr key={index}>
+                    <td className="px-3 py-2">{order.invoice_no}</td>
+                    <td className="px-3 py-2">{order.product}</td>
+                    <td className="px-3 py-2">{order.order_type}</td>
+                    <td className="px-3 py-2">{order.contact_number}</td>
+                    <td className="px-3 py-2">{order.total_quantity}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
